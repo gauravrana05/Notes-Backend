@@ -19,7 +19,7 @@ const getNote = async (req, res) => {
     createdBy: userId,
   })
   if (!note) {
-    throw new NotFoundError(`No job with id ${noteId}`)
+    throw new NotFoundError(`No note with id ${noteId}`)
   }
   res.status(StatusCodes.OK).json({ note })
 }
@@ -59,7 +59,7 @@ const deleteNote = async (req, res) => {
 
   const note = await Note.findByIdAndDelete({
     _id: noteId,
-    created
+    createdBy: userId,
   })
   if (!note) {
     throw new NotFoundError(`No note with id ${noteId}`)
