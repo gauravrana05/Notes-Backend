@@ -8,6 +8,10 @@ require('express-async-errors')
 
 const express = require('express')
 const app = express()
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs')
+
+const swaggerDoc = YAML.load('./swagger.yaml');
 
 const connectDB = require('./db/connect')
 
@@ -31,10 +35,15 @@ app.use(express.json())
 app.use(helmet());
 app.use(cors());
 
+
+
 app.use((req, res, next) => {
   console.log('API called:', req.method, req.url);
   next();
 });
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
+
 app.get('/', (req, res) => {
   res.send('<h1>Notes API</h1><a href="/api-docs">Documentation</a>');
 });

@@ -1,0 +1,301 @@
+openapi: 3.0.0
+info:
+  title: Notes API
+  description: >-
+    **Step 1: Send requests**
+
+
+    Notes API allow you to perform CRUD operations using the POST, GET, PATCH,
+    and DELETE HTTP methods.
+
+
+    **Step 2: View responses**
+
+
+    Observe the response tab for status code (200 OK), response time, and size.
+
+
+    #### **Step 3: Send new Body data**
+
+
+    Update or add new data in "Body" in the POST request. Typically, Body data
+    is also used in PATCH request.
+
+
+    ```
+
+    {
+        "title": "The big day",
+        "content" : " The first time I went to school."
+        
+    }
+
+     ```
+  contact: {}
+  version: '1.0'
+servers:
+  - url: https://notes-app-u9bw.onrender.com
+    variables: {}
+paths:
+  /api/v1/notes:
+    get:
+      tags:
+        - Notes
+      summary: Get All Notes
+      description: >-
+        This is a GET request and it is used to "get" data from an endpoint.
+
+        A successful GET response will have a `200 OK` status and should include
+        some kind of response body.
+      operationId: GetAllNotes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+        - Notes
+      summary: Create Note
+      description: >-
+        This is a POST request, submitting data to an API via the request body.
+        This request submits JSON data, and the data is reflected in the
+        response.
+
+
+        A successful POST request typically returns a `200 OK` or `201 Created`
+        response code.
+      operationId: CreateNote
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CreateNoteRequest'
+                - example:
+                    title: SkillStreet
+                    content: Purpose, People and Performance. 
+            example:
+              title: SkillStreet
+              content: Purpose, People and Performance. 
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/notes/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Note id
+    patch:
+      tags:
+        - Notes
+      summary: Update Note
+      description: >-
+        This is a PATCH request and it is used to overwrite an existing piece of
+        data. For instance, after you create an entity with a POST request, you
+        may want to modify that later. 
+
+        A successful PATCH request typically returns a `200 OK` response code.
+      operationId: UpdateNote
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UpdateNoteRequest'
+                - example:
+                    content: Passionate about leveraging backend technologies to fulfill the purpose of applications while maximizing performance.
+            example:
+              content: Passionate about leveraging backend technologies to fulfill the purpose of applications while maximizing performance.
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - Notes
+      summary: Delete Note
+      description: >-
+        This is a DELETE request, and it is used to delete data that was
+        previously created via a POST request.
+
+
+        A successful DELETE request typically returns a `200 OK` response code.
+      operationId: DeleteNote
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/notes/{noteId}:
+    parameters:
+      - in: path
+        name: noteId
+        schema:
+          type: string
+        required: true
+        description: The Note id
+    get:
+      tags:
+        - Notes
+      summary: Get Single Note
+      description: >-
+        This is a GET request and it is used to "get" a particular note from the
+        endpoint.
+
+        A successful GET response will have a `200 OK` status and should include
+        some kind of response body.
+      operationId: GetSingleNote
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RegisterUserRequest'
+                - example:
+                    name: Backend Developer
+                    email: backend.dev@gmail.com
+                    password: Test#123
+            example:
+              name: Backend Developer
+              email: backend.dev@gmail.com
+              password: Test#123
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      description: >-
+        This is a POST request, submitting data to an API via the request body.
+        This request submits JSON data, and the data is reflected in the
+        response.
+
+
+        A successful POST request typically returns a `200 OK` or `201 Created`
+        response code.
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/LoginUserRequest'
+                - example:
+                    email: backend.dev@gmail.com
+                    password: Test#123
+            example:
+              email: backend.dev@gmail.com
+              password: Test#123
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+components:
+  schemas:
+    CreateNoteRequest:
+      title: CreateNoteRequest
+      required:
+        - title
+        - content
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+      example:
+        title: Skillstreet
+        content: Purpose, People and Performance. 
+    UpdateNoteRequest:
+      title: UpdateNoteRequest
+      required:
+        - content
+      type: object
+      properties:
+        content:
+          type: string
+      example:
+        content:Passionate about leveraging backend technologies to fulfill the purpose  applications while maximizing performance. 
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: Backend Developer
+        email: backend.dev@gmail.com
+        password: Test#123
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: backend.dev@gmail.com
+        password: Test#123
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: Auth
+    description: ''
+  - name: Notes
+    description: ''
