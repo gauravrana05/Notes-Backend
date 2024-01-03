@@ -56,9 +56,10 @@ const deleteNote = async (req, res) => {
     params: { id: noteId },
   } = req
 
-  const note = await Note.findByIdAndRemove({
+
+  const note = await Note.findByIdAndDelete({
     _id: noteId,
-    createdBy: userId,
+    created
   })
   if (!note) {
     throw new NotFoundError(`No note with id ${noteId}`)
